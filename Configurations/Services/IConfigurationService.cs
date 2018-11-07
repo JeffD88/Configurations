@@ -1,19 +1,17 @@
-﻿using Mastercam.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
+using Mastercam.Database;
+
 
 namespace Configurations.Services
 {
     public interface IConfigurationService
     {
-        List<int> GetConfigurations(Operation[] allOperations);
+        List<int> GetConfigurations();
 
         void AddToConfiguration(int configurationNumber, Operation[] selectedOperations);
 
-        void SetPosting(int configurationNumber, Operation[] allOperations);
+        void SetPosting(int configurationNumbers);
 
     }
 }

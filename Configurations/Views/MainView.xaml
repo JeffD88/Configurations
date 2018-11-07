@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Configurations.Views"
              mc:Ignorable="d"
-             MinHeight="350" MinWidth="275"
-             Height="350" Width="275"
+             MinHeight="300" MinWidth="275"
+             Height="300" Width="275"
              Title="Configurations"
-             WindowStartupLocation="CenterScreen">
+             WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>

@@ -3,11 +3,32 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Mastercam.Database;
+using Mastercam.Support;
 
 namespace Configurations.Services
 {
-    class ConfigurationService : IConfigurationService
+    public class ConfigurationService : IConfigurationService
     {
+        public List<int> GetConfigurations()
+        {
+            var Configurations = new List<int>();
+            var configRegex = new Regex(@"(#config)(\d+)($)");
+
+            var allOperations = SearchManager.GetOperations();
+            foreach (var operation in allOperations)
+            {
+                var match = configRegex.Match(operation.Name);
+                if (match.Success)
+                {
+                    Configurations.Add(Convert.ToInt32(match.Groups[2].Value));
+                }
+            }
+
+            Configurations.Sort();
+
+            return Configurations;
+        }
+
         public void AddToConfiguration(int configurationNumber, Operation[] selectedOperations)
         {
             var regex = new Regex(@"#config\d+$");
@@ -23,11 +44,12 @@ namespace Configurations.Services
             }
         }
 
-        public void SetPosting(int configurationNumber, Operation[] allOperations)
+        public void SetPosting(int configurationNumber)
         {
             var otherConfigsRegex = new Regex(@"#config\d+$");
             var selectedConfigRegex = new Regex($"#config{configurationNumber}$");
 
+            var allOperations = SearchManager.GetOperations();
             foreach (var operation in allOperations)
             {
                 if (selectedConfigRegex.IsMatch(operation.Name) || !otherConfigsRegex.IsMatch(operation.Name))
@@ -37,23 +59,6 @@ namespace Configurations.Services
 
                 operation.Commit(false);
             }
-        }
-
-        public List<int> GetConfigurations(Operation[] allOperations)
-        {
-            var Configurations = new List<int>();
-            var configRegex = new Regex(@"(#config)(\d+)($)");
-
-            foreach (var operation in allOperations)
-            {
-                var match = configRegex.Match(operation.Name);
-                if (match.Success)
-                {
-                    Configurations.Add(Convert.ToInt32(match.Groups[2].Value));
-                }
-            }
-
-            return Configurations;
         }
     }
 }

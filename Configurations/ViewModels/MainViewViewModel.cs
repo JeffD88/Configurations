@@ -10,10 +10,8 @@
     using Configurations.Commands;
     using Configurations.Services;
 
-    using Mastercam.Database;
     using Mastercam.Database.Types;
     using Mastercam.IO;
-    using Mastercam.Operations;
     using Mastercam.Support;
     using Mastercam.Support.Events;
 
@@ -26,10 +24,6 @@
         private int selectedConfiguration;
 
         private List<int> configurations = null;
-
-        private Operation[] allOperations = null;
-
-        private Operation[] selectedOperations = null;
 
         private readonly Window view;
 
@@ -48,12 +42,7 @@
             this.SetConfigurationCommand = new DelegateCommand(this.OnSetConfigurationCommand);
 
             this.ConfigurationNumber = 1;
-
-            this.allOperations = SearchManager.GetOperations();
-
-            if (allOperations.Any())
-                this.Configurations = configurationService.GetConfigurations(allOperations);
-
+            this.Configurations = configurationService.GetConfigurations();
         }
 
         #endregion
@@ -126,13 +115,12 @@
             }
             PromptManager.Clear();
 
-            this.selectedOperations = SearchManager.GetOperations(true);
+            var selectedOperations = SearchManager.GetOperations(true);
             if (selectedOperations.Any())
             {
                 configurationService.AddToConfiguration(ConfigurationNumber, selectedOperations);
 
-                this.allOperations = SearchManager.GetOperations();
-                this.Configurations = configurationService.GetConfigurations(allOperations);
+                this.Configurations = configurationService.GetConfigurations();
             }
             else
                 DialogManager.Error("No Operations Selected", "No Operations Selected");
@@ -141,7 +129,7 @@
 
         private void OnSetConfigurationCommand(object parameter)
         {
-            configurationService.SetPosting(SelectedConfiguration, allOperations);
+            configurationService.SetPosting(SelectedConfiguration);
             this.view?.Close();
         }
 
