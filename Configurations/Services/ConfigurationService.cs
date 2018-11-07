@@ -18,7 +18,7 @@ namespace Configurations.Services
             foreach (var operation in allOperations)
             {
                 var match = configRegex.Match(operation.Name);
-                if (match.Success)
+                if (match.Success && !Configurations.Contains(Convert.ToInt32(match.Groups[2].Value)))
                 {
                     Configurations.Add(Convert.ToInt32(match.Groups[2].Value));
                 }
