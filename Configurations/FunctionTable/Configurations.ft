@@ -1,0 +1,41 @@
+﻿###############################################################################
+# NETHook function table			
+###############################################################################
+#
+# Name		: PROJECT_NAME.ft
+# NETHook 	: PROJECT_NAME.dll
+# Date		: 
+# Author	: 
+# Notes		:  ** Update all PROJECT_NAME references with the projects name **
+# Language	: C#
+#
+###############################################################################
+
+
+######################
+# ASSIGN A UNIQUE NAME
+######################
+APPLICATION "__Configurations__"
+
+######################
+# NETHook LOCATION
+######################
+#
+# Update paths below to match your install path and project name.
+FUNC_DLL   "CHOOKS\Configurations.dll"
+RES_DLL    "SAME"
+dnRES_NAME "Configurations.FunctionTable.Resource"
+CATEGORY   "Configurations NET-Hook"
+
+##############################################################################
+# Public functions here
+##############################################################################
+#
+# The main system entry point defined in NethookMain.cs
+FUNCTION NET "Run"
+    dnSPNG "Configs16"
+    dnLPNG "Configs32"
+    dnTIP  "RunTip"
+END_FUNCTION
+
+# EOF
