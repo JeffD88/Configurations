@@ -11,6 +11,8 @@ namespace Configurations.Services
 
         void AddToConfiguration(int configurationNumber, Operation[] selectedOperations);
 
+        void PostConfiguration(int configurationNumber);
+
         void SetPosting(int configurationNumbers);
 
     }

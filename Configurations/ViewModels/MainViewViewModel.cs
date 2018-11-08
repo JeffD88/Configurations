@@ -39,6 +39,7 @@
             this.configurationService = configurationService;
 
             this.SelectOperationsCommand = new DelegateCommand(this.OnSelectOperationsCommand);
+            this.PostConfigurationCommand = new DelegateCommand(this.OnPostConfigurationCommand);
             this.SetConfigurationCommand = new DelegateCommand(this.OnSetConfigurationCommand);
 
             this.ConfigurationNumber = 1;
@@ -50,6 +51,9 @@
         #region Commands
 
         public ICommand SelectOperationsCommand { get; }
+
+        public ICommand PostConfigurationCommand { get; }
+
         public ICommand SetConfigurationCommand { get; }
 
         #endregion
@@ -106,8 +110,8 @@
                                      $"Press Enter when done.",
                                      eventData,
                                      UIEventType.Key,
-                                     new GeometryMask(),
-                                     new SelectionMask()
+                                     new GeometryMask(false),
+                                     new SelectionMask(false)
                                     );
                     if (eventData.Key == 13)
                         isEnter = true;
@@ -127,6 +131,12 @@
             this.view.ShowDialog();
         }
 
+        private void OnPostConfigurationCommand(object parameter)
+        {
+            configurationService.PostConfiguration(SelectedConfiguration);
+            this.view?.Close();
+        }
+        
         private void OnSetConfigurationCommand(object parameter)
         {
             configurationService.SetPosting(SelectedConfiguration);

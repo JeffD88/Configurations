@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
-
+using System.Windows.Forms;
 using Mastercam.Database;
+using Mastercam.IO;
+using Mastercam.Operations;
 using Mastercam.Support;
 
 namespace Configurations.Services
@@ -18,9 +21,12 @@ namespace Configurations.Services
             foreach (var operation in allOperations)
             {
                 var match = configRegex.Match(operation.Name);
-                if (match.Success && !Configurations.Contains(Convert.ToInt32(match.Groups[2].Value)))
+                if (match.Success)
                 {
-                    Configurations.Add(Convert.ToInt32(match.Groups[2].Value));
+                    var configurationNumber = Convert.ToInt32(match.Groups[2].Value);
+
+                    if (!Configurations.Contains(configurationNumber))
+                        Configurations.Add(configurationNumber);
                 }
             }
 
@@ -41,6 +47,43 @@ namespace Configurations.Services
                     operation.Name = $"{operation.Name}{Environment.NewLine}#config{configurationNumber}";
 
                 operation.Commit(false);
+            }
+        }
+
+        public void PostConfiguration(int configurationNumber)
+        {
+            var otherConfigsRegex = new Regex(@"#config\d+$");
+            var selectedConfigRegex = new Regex($"#config{configurationNumber}$");
+            var OperationsToPost = new List<Operation>();
+
+            var allOperations = SearchManager.GetOperations();
+            foreach (var operation in allOperations)
+            {
+                if (selectedConfigRegex.IsMatch(operation.Name) || !otherConfigsRegex.IsMatch(operation.Name))
+                {
+                    operation.NCIName = Path.Combine(SettingsManager.UserDirectory, 
+                                                     $"Mill\\NCI\\Configuration_{configurationNumber}.nci"
+                                                    );
+                    operation.Commit(false);
+                    OperationsToPost.Add(operation);
+                }
+            }
+
+            var save = new SaveFileDialog
+            {
+                Title = "Save As",
+                Filter = "All files (*.*)|*.*",
+                FileName = Path.GetFileNameWithoutExtension(OperationsToPost[0].NCIName),
+                InitialDirectory = SettingsManager.UserDirectory
+
+            };
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                OperationsManager.PostOperations(OperationsToPost.ToArray(), 
+                                                 Path.GetDirectoryName(save.FileName),
+                                                 true,
+                                                 true
+                                                );
             }
         }
 

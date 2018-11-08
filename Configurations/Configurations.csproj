@@ -85,10 +85,11 @@
   <ItemGroup>
     <Content Include="FunctionTable\Assets\Configs16.png" />
     <Content Include="FunctionTable\Assets\Configs32.png" />
-    <Resource Include="Views\Images\Apply.png" />
+    <Resource Include="Views\Images\Ghost.png" />
+    <Resource Include="Views\Images\Post.png" />
+    <Resource Include="Views\Images\Cancel.png" />
+    <Resource Include="Views\Images\Ok.png" />
     <Resource Include="Views\Images\Cursor.png" />
-    <Resource Include="Views\Images\Cancel32.png" />
-    <Resource Include="Views\Images\Ok32.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FunctionTable\Configurations.ft" />
