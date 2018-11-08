@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+
 using Mastercam.Database;
 using Mastercam.IO;
 using Mastercam.Operations;
@@ -68,23 +70,27 @@ namespace Configurations.Services
                     OperationsToPost.Add(operation);
                 }
             }
-
-            var save = new SaveFileDialog
+            if (OperationsToPost.Any())
             {
-                Title = "Save As",
-                Filter = "All files (*.*)|*.*",
-                FileName = Path.GetFileNameWithoutExtension(OperationsToPost[0].NCIName),
-                InitialDirectory = SettingsManager.UserDirectory
+                var save = new SaveFileDialog
+                {
+                    Title = "Save As",
+                    Filter = "All files (*.*)|*.*",
+                    FileName = Path.GetFileNameWithoutExtension(OperationsToPost[0].NCIName),
+                    InitialDirectory = SettingsManager.UserDirectory
 
-            };
-            if (save.ShowDialog() == DialogResult.OK)
-            {
-                OperationsManager.PostOperations(OperationsToPost.ToArray(), 
-                                                 Path.GetDirectoryName(save.FileName),
-                                                 true,
-                                                 true
-                                                );
+                };
+                if (save.ShowDialog() == DialogResult.OK)
+                {
+                    OperationsManager.PostOperations(OperationsToPost.ToArray(),
+                                                     Path.GetDirectoryName(save.FileName),
+                                                     true,
+                                                     true
+                                                    );
+                }
             }
+            else
+                DialogManager.Error("No operations found in selected configuration.", "No Operations Found");
         }
 
         public void SetPosting(int configurationNumber)

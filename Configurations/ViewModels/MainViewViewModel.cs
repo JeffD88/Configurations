@@ -115,7 +115,7 @@
                                     );
                     if (eventData.Key == 13)
                         isEnter = true;
-                }               
+                }
             }
             PromptManager.Clear();
 
