@@ -128,6 +128,7 @@
             }
             else
                 DialogManager.Error("No Operations Selected", "No Operations Selected");
+
             this.view.ShowDialog();
         }
 
