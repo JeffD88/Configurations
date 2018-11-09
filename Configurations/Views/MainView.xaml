@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              MinHeight="300" MinWidth="225"
              Height="300" Width="225"
-             Title="Configurations"
+             Title="Manage Configurations"
              WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -69,20 +69,20 @@
                      ToolTip="Specify a configuration to add operations to"
                      Text="{Binding ConfigurationNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
-            <Button x:Name="SelectOperationsutton"
+            <Button x:Name="SelectOperationsButton"
                     Height="25"
                     Width="25"
                     IsTabStop="True"
                     TabIndex="1"
                     ToolTip="Select operations to add to the specified configuration"
                     Command="{Binding SelectOperationsCommand}">
-                
+
                 <Image Source="Images/Cursor.png"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
 
             </Button>
-            
+
         </StackPanel>
 
         <StackPanel Orientation="Vertical"
@@ -108,7 +108,7 @@
                    VerticalAlignment="Center"
                    Content="Number"/>
 
-        <ComboBox x:Name="ConfigurationComboBox"
+        <ComboBox x:Name="SetConfigurationComboBox"
                   Grid.Row="5"
                   Grid.Column="2"
                   HorizontalAlignment="Right"
@@ -140,13 +140,10 @@
                     Command="{Binding PostConfigurationCommand}"
                     IsEnabled="{Binding HasConfigurations}"/>
 
-            <Button x:Name="SetConfigurationButton"
-                    Grid.Row="6"
-                    Grid.Column="2"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
+            <Button x:Name="SetConfigurationButton"                    
                     Height="25"
                     Width="25"
+                    Margin="0 0 5 0"
                     IsTabStop="True"
                     TabIndex="3"
                     ToolTip="Toggle posting to the selected configuration"
@@ -158,7 +155,22 @@
                        VerticalAlignment="Center"/>
 
             </Button>
-            
+
+            <Button x:Name="RemoveConfigurationButton"
+                    Height="25"
+                    Width="25"
+                    IsTabStop="True"
+                    TabIndex="4"
+                    ToolTip="Remove the selected configuration"
+                    Command="{Binding RemoveConfigurationCommand}"
+                    IsEnabled="{Binding HasConfigurations}">
+
+                <Image Source="Images/Remove.png"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+            </Button>
+
         </StackPanel>
         
     </Grid>

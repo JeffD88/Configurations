@@ -43,6 +43,7 @@
             this.configurationService = configurationService;
 
             this.SelectOperationsCommand = new DelegateCommand(this.OnSelectOperationsCommand);
+            this.RemoveConfigurationCommand = new DelegateCommand(this.OnRemoveConfigurationCommand);
             this.PostConfigurationCommand = new DelegateCommand(this.OnPostConfigurationCommand);
             this.SetConfigurationCommand = new DelegateCommand(this.OnSetConfigurationCommand);
 
@@ -63,6 +64,8 @@
         #region Commands
 
         public ICommand SelectOperationsCommand { get; }
+
+        public ICommand RemoveConfigurationCommand { get; }
 
         public ICommand PostConfigurationCommand { get; }
 
@@ -159,13 +162,24 @@
             PromptManager.Clear();
             this.view.ShowDialog();
         }
-    
+
+        private void OnRemoveConfigurationCommand(object parameter)
+        {
+            configurationService.RemoveConfiguration(SelectedConfiguration);
+            this.Configurations = configurationService.GetConfigurations();
+            if (Configurations.Any())
+            {
+                HasConfigurations = true;
+                Index = 0;
+            }
+            else
+                HasConfigurations = false;
+        }
+
         private void OnPostConfigurationCommand(object parameter)
         {
-
             configurationService.PostConfiguration(SelectedConfiguration);
             this.view?.Close();
-
         }
         
         private void OnSetConfigurationCommand(object parameter)

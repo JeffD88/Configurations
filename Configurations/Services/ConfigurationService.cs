@@ -44,9 +44,26 @@ namespace Configurations.Services
             foreach (var operation in selectedOperations)
             {              
                 if (regex.IsMatch(operation.Name))
-                    operation.Name = Regex.Replace(operation.Name, @"#config\d+$", $"#config{configurationNumber}");
+                    operation.Name = Regex.Replace(operation.Name, regex.ToString(), $"#config{configurationNumber}");
                 else
                     operation.Name = $"{operation.Name}{Environment.NewLine}#config{configurationNumber}";
+
+                operation.Commit(false);
+            }
+        }
+
+        public void RemoveConfiguration(int configurationNumber)
+        {
+            var selectedConfigRegex = new Regex($"#config{configurationNumber}$");
+            
+            var allOperations = SearchManager.GetOperations();
+            foreach (var operation in allOperations)
+            {
+                if (selectedConfigRegex.IsMatch(operation.Name))
+                    operation.Name = Regex.Replace(operation.Name, 
+                                                   selectedConfigRegex.ToString(), 
+                                                   ""
+                                                  );
 
                 operation.Commit(false);
             }

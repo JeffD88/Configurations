@@ -83,10 +83,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FunctionTable\Assets\Configs16.png" />
-    <Content Include="FunctionTable\Assets\Configs32.png" />
+    <None Include="Resources\Configs32.png" />
+    <None Include="Resources\Configs16.png" />
     <Resource Include="Views\Images\Ghost.png" />
-    <Resource Include="Views\Images\Cancel.png" />
+    <Resource Include="Views\Images\Remove.png" />
     <Resource Include="Views\Images\Ok.png" />
     <Resource Include="Views\Images\Cursor.png" />
   </ItemGroup>
@@ -107,6 +107,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExampleFile\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FunctionTable\Assets\Configs16.png" />
+    <Content Include="FunctionTable\Assets\Configs32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
