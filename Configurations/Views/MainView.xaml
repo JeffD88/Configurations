@@ -8,7 +8,8 @@
              MinHeight="300" MinWidth="225"
              Height="300" Width="225"
              Title="Manage Configurations"
-             WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+             WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
+             Icon="../Configs.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
@@ -73,13 +74,21 @@
                     Height="25"
                     Width="25"
                     IsTabStop="True"
-                    TabIndex="1"
-                    ToolTip="Select operations to add to the specified configuration"
+                    TabIndex="1"          
                     Command="{Binding SelectOperationsCommand}">
 
                 <Image Source="Images/Cursor.png"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
+                
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Select Operations</TextBlock>
+                            <TextBlock>Using the Toolpaths Manager, select operations to add them to the specified configuration.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
 
             </Button>
 
@@ -135,18 +144,27 @@
                     IsTabStop="True"
                     TabIndex="2"
                     FontSize="14"
-                    ToolTip="Post process the selected configuration"
                     Content="G1"
                     Command="{Binding PostConfigurationCommand}"
-                    IsEnabled="{Binding HasConfigurations}"/>
+                    IsEnabled="{Binding HasConfigurations}">
 
-            <Button x:Name="SetConfigurationButton"                    
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Post Process Configuration</TextBlock>
+                            <TextBlock>Post process the selected configuration.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+
+            </Button>
+
+                <Button x:Name="SetConfigurationButton"                    
                     Height="25"
                     Width="25"
                     Margin="0 0 5 0"
                     IsTabStop="True"
                     TabIndex="3"
-                    ToolTip="Toggle posting to the selected configuration"
                     Command="{Binding SetConfigurationCommand}"
                     IsEnabled="{Binding HasConfigurations}">
                 
@@ -156,6 +174,15 @@
                        Width="20"
                        Height="20"/>
 
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Toggle Posting</TextBlock>
+                            <TextBlock>Set posting to the selected configuration.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+
             </Button>
 
             <Button x:Name="RemoveConfigurationButton"
@@ -163,13 +190,21 @@
                     Width="25"
                     IsTabStop="True"
                     TabIndex="4"
-                    ToolTip="Remove the selected configuration"
                     Command="{Binding RemoveConfigurationCommand}"
                     IsEnabled="{Binding HasConfigurations}">
 
                 <Image Source="Images/Remove.png"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"/>
+
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock FontWeight="Bold">Remove Configuration</TextBlock>
+                            <TextBlock>Remove the selected configuration.</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
 
             </Button>
 

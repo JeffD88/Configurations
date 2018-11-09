@@ -47,6 +47,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Configs.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NETHook3_0">
       <HintPath>..\..\..\..\..\..\Program Files\Mcam2019\NETHook3_0.dll</HintPath>
@@ -109,6 +112,7 @@
     <Folder Include="ExampleFile\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Configs.ico" />
     <Content Include="FunctionTable\Assets\Configs16.png" />
     <Content Include="FunctionTable\Assets\Configs32.png" />
   </ItemGroup>
