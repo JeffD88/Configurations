@@ -115,11 +115,12 @@
                   VerticalAlignment="Center"
                   Height="25"
                   Width="85"
-                  FontSize="14"
+                  FontSize="14"   
                   IsTabStop="False"
                   ToolTip="Select a configuration"
                   ItemsSource="{Binding Configurations, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                  SelectedValue="{Binding SelectedConfiguration}"/>
+                  SelectedValue="{Binding SelectedConfiguration}"
+                  SelectedIndex="{Binding Index, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
         <StackPanel Orientation="Horizontal"
                     Grid.Row="6"
@@ -136,7 +137,8 @@
                     FontSize="14"
                     ToolTip="Post process the selected configuration"
                     Content="G1"
-                    Command="{Binding PostConfigurationCommand}" />
+                    Command="{Binding PostConfigurationCommand}"
+                    IsEnabled="{Binding HasConfigurations}"/>
 
             <Button x:Name="SetConfigurationButton"
                     Grid.Row="6"
@@ -148,7 +150,8 @@
                     IsTabStop="True"
                     TabIndex="3"
                     ToolTip="Toggle posting to the selected configuration"
-                    Command="{Binding SetConfigurationCommand}">
+                    Command="{Binding SetConfigurationCommand}"
+                    IsEnabled="{Binding HasConfigurations}">
                 
                 <Image Source="Images/Ghost.png"
                        HorizontalAlignment="Center"

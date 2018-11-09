@@ -23,7 +23,11 @@
 
         private int selectedConfiguration;
 
+        private int index;
+
         private List<int> configurations = null;
+
+        private bool hasConfigurations;
 
         private readonly Window view;
 
@@ -44,6 +48,14 @@
 
             this.ConfigurationNumber = 1;
             this.Configurations = configurationService.GetConfigurations();
+
+            if (Configurations.Any())
+            {
+                HasConfigurations = true;
+                Index = 0;
+            }
+            else
+                HasConfigurations = false;
         }
 
         #endregion
@@ -82,6 +94,17 @@
             }
         }
 
+        public int Index
+        {
+            get => this.index;
+
+            set
+            {
+                this.index = value;
+                OnPropertyChanged(nameof(this.Index));
+            }
+        }
+
         public List<int> Configurations
         {
             get => this.configurations;
@@ -93,6 +116,17 @@
             }
         }
 
+        public bool HasConfigurations
+        {
+            get => this.hasConfigurations;
+
+            set
+            {
+                this.hasConfigurations = value;
+                OnPropertyChanged(nameof(this.HasConfigurations));
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -100,48 +134,73 @@
         private void OnSelectOperationsCommand(object parameter)
         {
             this.view.Hide();
-            using (var uiEvent = new McUIEvent())
+
+            if (OperationsSelected())
             {
-                var eventData = new UIEventData();
-                var isEnter = false;
-                while (!isEnter)
+                var selectedOperations = SearchManager.GetOperations(true);
+                if (selectedOperations.Any())
                 {
-                    uiEvent.GetEvent($"Select operations to add to Configuration {ConfigurationNumber}.{Environment.NewLine}" +
-                                     $"Press Enter when done.",
-                                     eventData,
-                                     UIEventType.Key,
-                                     new GeometryMask(false),
-                                     new SelectionMask(false)
-                                    );
-                    if (eventData.Key == 13)
-                        isEnter = true;
+                    configurationService.AddToConfiguration(ConfigurationNumber, selectedOperations);
+
+                    this.Configurations = configurationService.GetConfigurations();
+
+                    if (Configurations.Any())
+                    {
+                        HasConfigurations = true;
+                        Index = 0;
+                    }
+                    else
+                        HasConfigurations = false;
                 }
+                else
+                    DialogManager.Error("No operations selected", "No Operations Selected");
             }
+
             PromptManager.Clear();
-
-            var selectedOperations = SearchManager.GetOperations(true);
-            if (selectedOperations.Any())
-            {
-                configurationService.AddToConfiguration(ConfigurationNumber, selectedOperations);
-
-                this.Configurations = configurationService.GetConfigurations();
-            }
-            else
-                DialogManager.Error("No Operations Selected", "No Operations Selected");
-
             this.view.ShowDialog();
         }
-
+    
         private void OnPostConfigurationCommand(object parameter)
         {
+
             configurationService.PostConfiguration(SelectedConfiguration);
             this.view?.Close();
+
         }
         
         private void OnSetConfigurationCommand(object parameter)
         {
             configurationService.SetPosting(SelectedConfiguration);
             this.view?.Close();
+        }
+
+        private bool OperationsSelected()
+        {
+            var eventData = new UIEventData();
+            McUIEvent uiEvent = null;
+
+            while (true)
+            {
+                uiEvent = new McUIEvent();
+
+                uiEvent.GetEvent($"Select operations to add to Configuration {ConfigurationNumber}.{Environment.NewLine}" +
+                                 $"Press Enter when done.",
+                                 eventData,
+                                 UIEventType.Key,
+                                 new GeometryMask(false),
+                                 new SelectionMask(false)
+                                );
+
+                if (eventData.Key == 13)
+                    return true;
+
+                if (eventData.Key == 0)
+                    return false;
+
+                eventData.Key = 0;
+                uiEvent.Dispose();
+            }
+            
         }
 
         #endregion

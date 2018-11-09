@@ -54,33 +54,32 @@ namespace Configurations.Services
 
         public void PostConfiguration(int configurationNumber)
         {
-            var otherConfigsRegex = new Regex(@"#config\d+$");
-            var selectedConfigRegex = new Regex($"#config{configurationNumber}$");
-            var OperationsToPost = new List<Operation>();
-
-            var allOperations = SearchManager.GetOperations();
-            foreach (var operation in allOperations)
+            var save = new SaveFileDialog
             {
-                if (selectedConfigRegex.IsMatch(operation.Name) || !otherConfigsRegex.IsMatch(operation.Name))
+                Title = "Save As",
+                Filter = "All files (*.*)|*.*",
+                InitialDirectory = SettingsManager.UserDirectory
+            };
+            if ((save.ShowDialog() == DialogResult.OK))
+            {
+                var otherConfigsRegex = new Regex(@"#config\d+$");
+                var selectedConfigRegex = new Regex($"#config{configurationNumber}$");
+
+                var OperationsToPost = new List<Operation>();
+
+                var nciFile = Path.ChangeExtension(save.FileName, "nci");
+
+                var allOperations = SearchManager.GetOperations();
+                foreach (var operation in allOperations)
                 {
-                    operation.NCIName = Path.Combine(SettingsManager.UserDirectory, 
-                                                     $"Mill\\NCI\\Configuration_{configurationNumber}.nci"
-                                                    );
-                    operation.Commit(false);
-                    OperationsToPost.Add(operation);
+                    if (selectedConfigRegex.IsMatch(operation.Name) || !otherConfigsRegex.IsMatch(operation.Name))
+                    {
+                        operation.NCIName = nciFile;
+                        operation.Commit(false);
+                        OperationsToPost.Add(operation);
+                    }
                 }
-            }
-            if (OperationsToPost.Any())
-            {
-                var save = new SaveFileDialog
-                {
-                    Title = "Save As",
-                    Filter = "All files (*.*)|*.*",
-                    FileName = Path.GetFileNameWithoutExtension(OperationsToPost[0].NCIName),
-                    InitialDirectory = SettingsManager.UserDirectory
-
-                };
-                if (save.ShowDialog() == DialogResult.OK)
+                if (OperationsToPost.Any())
                 {
                     OperationsManager.PostOperations(OperationsToPost.ToArray(),
                                                      Path.GetDirectoryName(save.FileName),
@@ -88,9 +87,9 @@ namespace Configurations.Services
                                                      true
                                                     );
                 }
-            }
-            else
-                DialogManager.Error("No operations found in selected configuration.", "No Operations Found");
+                else
+                    DialogManager.Error("No operations found in selected configuration.", "No Operations Found");
+            }           
         }
 
         public void SetPosting(int configurationNumber)
