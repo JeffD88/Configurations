@@ -13,7 +13,7 @@ namespace Configurations.Services
 
         void RemoveConfiguration(int configurationNumber);
 
-        void PostConfiguration(int configurationNumber);
+        bool PostConfiguration(int configurationNumber);
 
         void SetPosting(int configurationNumbers);
 

@@ -154,8 +154,8 @@
 
         private void OnPostConfigurationCommand(object parameter)
         {
-            configurationService.PostConfiguration(SelectedConfiguration);
-            this.view?.Close();
+            if (configurationService.PostConfiguration(SelectedConfiguration))    
+                this.view?.Close();
         }
         
         private void OnSetConfigurationCommand(object parameter)

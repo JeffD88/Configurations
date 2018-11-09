@@ -151,7 +151,7 @@
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Post Process Configuration</TextBlock>
+                            <TextBlock FontWeight="Bold">Post Process</TextBlock>
                             <TextBlock>Post process the selected configuration.</TextBlock>
                         </StackPanel>
                     </ToolTip>
@@ -178,7 +178,7 @@
                     <ToolTip>
                         <StackPanel>
                             <TextBlock FontWeight="Bold">Toggle Posting</TextBlock>
-                            <TextBlock>Set posting to the selected configuration.</TextBlock>
+                            <TextBlock>Toggle posting to the selected configuration.</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
@@ -200,7 +200,7 @@
                 <Button.ToolTip>
                     <ToolTip>
                         <StackPanel>
-                            <TextBlock FontWeight="Bold">Remove Configuration</TextBlock>
+                            <TextBlock FontWeight="Bold">Remove</TextBlock>
                             <TextBlock>Remove the selected configuration.</TextBlock>
                         </StackPanel>
                     </ToolTip>

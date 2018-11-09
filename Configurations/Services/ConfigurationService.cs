@@ -62,14 +62,14 @@ namespace Configurations.Services
                 if (selectedConfigRegex.IsMatch(operation.Name))
                     operation.Name = Regex.Replace(operation.Name, 
                                                    selectedConfigRegex.ToString(), 
-                                                   ""
+                                                   string.Empty
                                                   );
 
                 operation.Commit(false);
             }
         }
 
-        public void PostConfiguration(int configurationNumber)
+        public bool PostConfiguration(int configurationNumber)
         {
             var save = new SaveFileDialog
             {
@@ -103,10 +103,16 @@ namespace Configurations.Services
                                                      true,
                                                      true
                                                     );
+                    return true;
                 }
                 else
+                {
                     DialogManager.Error("No operations found in selected configuration.", "No Operations Found");
-            }           
+                    return false;
+                }
+            }
+            else
+                return false;
         }
 
         public void SetPosting(int configurationNumber)
