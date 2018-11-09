@@ -48,15 +48,7 @@
             this.SetConfigurationCommand = new DelegateCommand(this.OnSetConfigurationCommand);
 
             this.ConfigurationNumber = 1;
-            this.Configurations = configurationService.GetConfigurations();
-
-            if (Configurations.Any())
-            {
-                HasConfigurations = true;
-                Index = 0;
-            }
-            else
-                HasConfigurations = false;
+            UpdateConfigurations();
         }
 
         #endregion
@@ -144,16 +136,7 @@
                 if (selectedOperations.Any())
                 {
                     configurationService.AddToConfiguration(ConfigurationNumber, selectedOperations);
-
-                    this.Configurations = configurationService.GetConfigurations();
-
-                    if (Configurations.Any())
-                    {
-                        HasConfigurations = true;
-                        Index = 0;
-                    }
-                    else
-                        HasConfigurations = false;
+                    UpdateConfigurations();
                 }
                 else
                     DialogManager.Error("No operations selected", "No Operations Selected");
@@ -166,14 +149,7 @@
         private void OnRemoveConfigurationCommand(object parameter)
         {
             configurationService.RemoveConfiguration(SelectedConfiguration);
-            this.Configurations = configurationService.GetConfigurations();
-            if (Configurations.Any())
-            {
-                HasConfigurations = true;
-                Index = 0;
-            }
-            else
-                HasConfigurations = false;
+            UpdateConfigurations();
         }
 
         private void OnPostConfigurationCommand(object parameter)
@@ -215,6 +191,19 @@
                 uiEvent.Dispose();
             }
             
+        }
+
+        private void UpdateConfigurations()
+        {
+            this.Configurations = configurationService.GetConfigurations();
+
+            if (Configurations.Any())
+            {
+                HasConfigurations = true;
+                Index = 0;
+            }
+            else
+                HasConfigurations = false;
         }
 
         #endregion

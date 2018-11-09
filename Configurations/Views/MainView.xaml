@@ -152,7 +152,9 @@
                 
                 <Image Source="Images/Ghost.png"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"
+                       Width="20"
+                       Height="20"/>
 
             </Button>
 
