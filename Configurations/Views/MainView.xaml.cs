@@ -13,8 +13,8 @@ namespace Configurations.Views
     {
         public MainView()
         {
-            this.DataContext = new MainViewViewModel(this, new ConfigurationService());
             InitializeComponent();
+            this.DataContext = new MainViewViewModel(this, new ConfigurationService());
         }
     }
 }
